@@ -69,11 +69,69 @@ $uniqueArray = array_values(array_unique($data));
       </nav>
     </header>
     <main class="main">
+    <div class="container">
+            <div class="home__content">
+            <div class="home__title-button">
+            <h2 class="home__title">Recommendation</h2>
+              
+            </div>
+
+            <div class="home__sets">
+              <div class="home__set">
+                <h3 class="home__set-name">AI Future</h3>
+                <div class="home__set-images">
+                  <?php 
+                  $set=array();
+                  $set[] = "Pants"; 
+                  $set[] = "hat"; 
+                  $set[] = "Shoes"; 
+                  $set[] = "shirts"; 
+                  foreach ($set as $value) {
+                  $sql4 = "select * from clothes where user_id = '$user_id' and c_type = '$value'";
+                  $result4 = $conn->query($sql4);
+                  if (!$result4) {
+                    die("Query failed: " . $conn->error);
+                }
+                  
+                  $numRows4 = $result4->num_rows;
+                  
+                  
+                  $chk=0;
+                  while ($row4 = $result4->fetch_assoc()) {
+                    
+                    $randomNumber = random_int(1, 3);
+                    if($randomNumber==2){
+                        $chk++;
+                      ?>
+                       <div class="home__set-image">
+                       <img src="upload_img/<?php echo $row4["image"];?>" alt="" />
+                      </div>
+                      <?php
+                      $img =$row4["image"];
+                      }
+                      
+                  }
+                 
+                }
+                  ?>
+                 
+                  </div>
+                </div>
+              </div>
+            
+          </div>
       <div class="container">
         <div class="home">
           <div class="home__content">
+         
+          <div class="home__title-button">
           <h2 class="home__title">My Collections</h2>
-            
+          <span class="home__title-create button">
+                <a href="/closet/clothes.php">create new</a>
+
+                <i class="fa-solid fa-plus"></i>
+              </span>
+          </div>
             <div class="home__sets">
               
                 <?php 
@@ -174,61 +232,7 @@ $uniqueArray = array_values(array_unique($data));
               </div>
             </div>
           </div>
-          <div class="container">
-          <div class="home__content">
-            <div class="home__title-button">
-            <h2 class="home__title">Recommendation</h2>
-              <span class="home__title-create button">
-                <a href="/closet/clothes.php">create new</a>
-
-                <i class="fa-solid fa-plus"></i>
-              </span>
-            </div>
-
-            <div class="home__sets">
-              <div class="home__set">
-                <h3 class="home__set-name">Set 1</h3>
-                <div class="home__set-images">
-                  <?php 
-                  $set=array();
-                  $set[] = "Pants"; 
-                  $set[] = "hat"; 
-                  $set[] = "Shoes"; 
-                  $set[] = "shirts"; 
-                  foreach ($set as $value) {
-                  $sql4 = "select * from clothes where user_id = '$user_id' and c_type = '$value'";
-                  $result4 = $conn->query($sql4);
-                  if (!$result4) {
-                    die("Query failed: " . $conn->error);
-                }
-                  
-                  $numRows4 = $result4->num_rows;
-                  
-                  
-                  $chk=0;
-                  while ($row4 = $result4->fetch_assoc()) {
-                    
-                    $randomNumber = random_int(1, 3);
-                    if($randomNumber==2){
-                        $chk++;
-                      ?>
-                       <div class="home__set-image">
-                       <img src="upload_img/<?php echo $row4["image"];?>" alt="" />
-                      </div>
-                      <?php
-                      $img =$row4["image"];
-                      }
-                      
-                  }
-                 
-                }
-                  ?>
-                 
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
     </main>
