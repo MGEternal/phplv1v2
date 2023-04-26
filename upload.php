@@ -1,44 +1,48 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
 session_start();
 include("connection.php");
 
+if(isset($_POST["upload"])){
 // File upload directory
 $uploadDir = "upload_img/";
 
-// Get the uploaded file details
-
 $closer_type = $_POST["select_cate"];
-
 $user_id = $_SESSION['user_id'];
-$fileName = $_FILES["file"]["name"];
-$fileTmpName = $_FILES["file"]["tmp_name"];
-$fileType = $_FILES["file"]["type"];
-$fileSize = $_FILES["file"]["size"];
-$fileError = $_FILES["file"]["error"];
+$fileName = $_FILES["clothes-image"]["name"];
+$fileTmpName = $_FILES["clothes-image"]["tmp_name"];
+$fileType = $_FILES["clothes-image"]["type"];
+$fileSize = $_FILES["clothes-image"]["size"];
+$fileError = $_FILES["clothes-image"]["error"];
 
-if ($fileError === 0) {
-    // Move the uploaded file to the desired directory
-    $uploadPath = $uploadDir . $fileName;
-    if (move_uploaded_file($fileTmpName, $uploadPath)) {
-        echo "File has been uploaded successfully!";
-    } else {
-        echo "Failed to upload file.";
-    }
-} else {
-    echo "Error uploading file: " . $fileError;
+// Get the file extension
+$fileExt = strtolower(pathinfo($fileName,PATHINFO_EXTENSION));
+
+// Check if the file extension is allowed
+$allowedExt = array("jpg", "jpeg", "png");
+if(!in_array($fileExt, $allowedExt)){
+    echo '<script language="javascript">alert("Error: Invalid file type. Only JPG, JPEG, and PNG files are allowed.")</script>';
+    header("upload.php");
+
 }
+else{
 
-$sql1 = "insert into clothes (`c_name`,`image`,`user_id`) VALUES ('$closer_type','$fileName','$user_id')";
+$sql1 = "insert into clothes (`c_type`,`image`,`user_id`) VALUES ('$closer_type','$fileName','$user_id')";
 $result = $conn->query($sql1);
 if($result){
-    header("Location: welcome.php");
+  echo '<script language="javascript">alert("Upload Success")</script>';
 }else{
     echo "Error: " . $sql1 . "<br>" . $conn->error;
 }
 
+$uploadPath = $uploadDir . $fileName;
+move_uploaded_file($fileTmpName, $uploadPath);
 
 }
+}
+
+$sql2 = "select * from sets ";
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,39 +83,35 @@ if($result){
         </ul>
       </nav>
     </header>
-    <form action="upload.php" method="post">
     <main class="main">
-      <div class="container">
-        <div class="upload">
-          <div class="upload__form">
-            <div class="upload__column"></div>
-            <div class="upload__row"></div>
-            <input
-              type="file"
-              class="upload__input"
-              name="clothes-image"
-              id="clothes-image"
-            />
-            <div class="upload__preview upload__preview-active">
-              <img src="" id="imgPreview" />
-            </div>
-          </div>
-          <div class="upload__select">
-            <label for="create_name">Category</label>
-            <select name="select_cate" id="cateName" class="upload__dropdown">
-              <option value="something1">something1</option>
-              <option value="something2">something2</option>
-              <option value="something3">something3</option>
-            </select>
-          </div>
-          <div class="upload__button button">
-            <input type="submit" value="Upload Your Clothes" class="" />
-            <i class="fa-solid fa-arrow-up"></i>
+  <div class="container">
+    <div class="upload">
+      <form  action="upload.php" method="post" enctype="multipart/form-data">
+        <div class="upload__form">
+          <div class="upload__column"></div>
+          <div class="upload__row"></div>
+          <input type="file" class="upload__input" name="clothes-image" id="clothes-image"/>
+          <div class="upload__preview upload__preview-active">
+            <img src="" id="imgPreview"/>
           </div>
         </div>
-      </div>
-    </main>
-    </form>
+        <div class="upload__select">
+          <label for="create_name">Category</label>
+          <select name="select_cate" id="cateName" class="upload__dropdown">
+            <option value="hat">hat</option>
+            <option value="shirts">shirts</option>
+            <option value="Pants">Pants</option>
+            <option value="Shoes">Shoes</option>
+          </select>
+        </div>
+        <div class="upload__button button">
+          <input type="submit" value="Upload Your Clothes" name="upload"/>
+          <i class="fa-solid fa-arrow-up"></i>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
     <script
       src="https://kit.fontawesome.com/508d35aa0b.js"
       crossorigin="anonymous"
@@ -143,23 +143,6 @@ if($result){
       }
     });
 
-    const formData = new FormData();
-    const uploadButton = document.querySelector(".upload__button");
-    const boundary = Math.random().toString().substr(2);
-    uploadButton.addEventListener("click", () => {
-      dropdown.classList.remove("upload__dropdown-active")
-      const file = imageInput.files[0];
-      if (file) {
-        formData.append("image", file);
-        formData.append("cate-name", selectCate.value)
-        fetch("/closet/upload-php.php", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => response.text())
-          .then((data) => console.log(data))
-          .catch((error) => console.error(error));
-      }
-    });
+
   </script>
 </html>

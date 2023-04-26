@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Connection successful
-echo "Connected successfully to the database: " . $dbname;
+#echo "Connected successfully to the database: " . $dbname;
 
 // ... Other code and queries can be added here ...
 

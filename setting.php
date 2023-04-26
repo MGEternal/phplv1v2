@@ -1,3 +1,7 @@
+<?php
+session_start();
+$username = $_SESSION['username'];
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -45,7 +49,7 @@
           <div class="setting__items">
             <div class="setting__item">
               <h2 class="setting__item-title">Account</h2>
-              <p class="setting__item-subtitle">Thanasaklimsila@gmail.com</p>
+              <p class="setting__item-subtitle"><?php echo $username; ?></p>
             </div>
           </div>
           <div class="setting__logout">
