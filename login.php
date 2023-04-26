@@ -22,6 +22,7 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $_SESSION['user_id'] = $row["user_id"];
     $_SESSION['username'] = $username;
+    
     header("Location: index.php");
 } else {
     // User not found, display error message

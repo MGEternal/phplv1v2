@@ -1,6 +1,11 @@
 <?php
 session_start();
+include("connection.php");
 $username = $_SESSION['username'];
+$user_id = $_SESSION['user_id'];
+$sql="select * from users where user_id = '$user_id'";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,8 +53,12 @@ $username = $_SESSION['username'];
         <div class="setting">
           <div class="setting__items">
             <div class="setting__item">
-              <h2 class="setting__item-title">Account</h2>
+              <h2 class="setting__item-title">Username</h2>
               <p class="setting__item-subtitle"><?php echo $username; ?></p>
+            </div>
+            <div class="setting__item">
+              <h2 class="setting__item-title">Email</h2>
+              <p class="setting__item-subtitle"><?php echo $row["email"]; ?></p>
             </div>
           </div>
           <div class="setting__logout">
