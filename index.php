@@ -72,7 +72,8 @@ $uniqueArray = array_values(array_unique($data));
       <div class="container">
         <div class="home">
           <div class="home__content">
-            <h2 class="home__title">Recommendation</h2>
+          <h2 class="home__title">My Collections</h2>
+            
             <div class="home__sets">
               
                 <?php 
@@ -107,9 +108,10 @@ $uniqueArray = array_values(array_unique($data));
                 }
                 ?>
                 
+                
                 </div>
                 </div>
-                </div>
+                <br>
                 <?php
               }
                 ?>
@@ -172,10 +174,10 @@ $uniqueArray = array_values(array_unique($data));
               </div>
             </div>
           </div>
-          
+          <div class="container">
           <div class="home__content">
             <div class="home__title-button">
-              <h2 class="home__title">My Collections</h2>
+            <h2 class="home__title">Recommendation</h2>
               <span class="home__title-create button">
                 <a href="/closet/clothes.php">create new</a>
 
@@ -195,16 +197,20 @@ $uniqueArray = array_values(array_unique($data));
                 }
                   
                   $numRows4 = $result4->num_rows;
+                  
                   while ($row4 = $result4->fetch_assoc()) {
+                    $randomNumber = random_int(1, 2);
+                    if($randomNumber==2){
                       ?>
                        <div class="home__set-image">
                        <img src="upload_img/<?php echo $row4["image"];?>" alt="" />
                       </div>
                       <?php
+                      }
                   }
                   ?>
                  
-                  
+                  </div>
                 </div>
               </div>
             </div>

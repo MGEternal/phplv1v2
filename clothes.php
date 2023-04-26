@@ -1,3 +1,9 @@
+<?php 
+  session_start();
+  include("connection.php");
+  $user_id = $_SESSION['user_id'];
+  ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -52,29 +58,155 @@
       </div>
       <div class="container">
         <div class="clothes">
-          <div class="clothes__category">
-            <h2 class="clothes__title">No category</h2>
+
+        
+        <div class="clothes__category">
+            <h2 class="clothes__title">Hats</h2>
             <div class="clothes__items">
-              <div class="clothes__item" id="id1">
-                <div class="clothes__item-button">
-                  <i class="fa-solid fa-check"></i>
-                </div>
-                <img src="/closet/photo-1600269452121-4f2416e55c28.webp" alt="item" />
-              </div>
-              <div class="clothes__item" id="id2">
-                <div class="clothes__item-button">
-                  <i class="fa-solid fa-check"></i>
-                </div>
-                <img src="/closet/photo-1600269452121-4f2416e55c28.webp" alt="item" />
-              </div>
-              <div class="clothes__item" id="id3">
-                <div class="clothes__item-button">
-                  <i class="fa-solid fa-check"></i>
-                </div>
-                <img src="/closet/photo-1600269452121-4f2416e55c28.webp" alt="item" />
-              </div>
-            </div>
+
+<?php
+            $c_type = 'hat';
+            $sql1 = "SELECT * FROM `clothes` WHERE user_id = '$user_id' AND c_type = '$c_type'";
+            $result = $conn->query($sql1);
+           if($result){
+              #none
+            }else{
+              echo "Error: " . $sql1 . "<br>" . $conn->error;
+            }
+
+            if($result->num_rows > 0){ ?> 
+    
+        <?php while($row = $result->fetch_assoc()){   ?>
+          
+
+          <div class="clothes__item" id="<?php echo $row['c_id']; ?>">
+          <div class="clothes__item-button">
+          <i class="fa-solid fa-check"></i>
           </div>
+          <img src="/closet/upload_img/<?php echo $row['image']; ?> " alt="item" />
+          </div>
+            
+        <?php } ?> 
+     
+<?php }
+        else{
+          echo "There's no cloth in this category";
+        }
+?>
+
+            
+            </div>
+
+            <h2 class="clothes__title">shirts</h2>
+            <div class="clothes__items">
+
+<?php
+            $c_type = 'shirts';
+            $sql1 = "SELECT * FROM `clothes` WHERE user_id = '$user_id' AND c_type = '$c_type'";
+            $result = $conn->query($sql1);
+           if($result){
+              #none
+            }else{
+              echo "Error: " . $sql1 . "<br>" . $conn->error;
+            }
+
+            if($result->num_rows > 0){ ?> 
+    
+        <?php while($row = $result->fetch_assoc()){   ?>
+
+
+          <div class="clothes__item" id="<?php echo $row['c_id']; ?>">
+          <div class="clothes__item-button">
+          <i class="fa-solid fa-check"></i>
+          </div>
+          <img src="/closet/upload_img/<?php echo $row['image']; ?> " alt="item" />
+          </div>
+            
+        <?php } ?> 
+     
+<?php }
+else{
+  echo "There's no cloth in this category";
+}?>
+
+            
+            </div>
+
+
+            <h2 class="clothes__title">Pants</h2>
+            <div class="clothes__items">
+
+<?php
+            $c_type = 'Pants';
+            $sql1 = "SELECT * FROM `clothes` WHERE user_id = '$user_id' AND c_type = '$c_type'";
+            $result = $conn->query($sql1);
+           if($result){
+              #none
+            }else{
+              echo "Error: " . $sql1 . "<br>" . $conn->error;
+            }
+
+            if($result->num_rows > 0){ ?> 
+    
+        <?php while($row = $result->fetch_assoc()){   ?>
+
+
+          <div class="clothes__item" id="<?php echo $row['c_id']; ?>">
+          <div class="clothes__item-button">
+          <i class="fa-solid fa-check"></i>
+          </div>
+          <img src="/closet/upload_img/<?php echo $row['image']; ?> " alt="item" />
+          </div>
+            
+        <?php } ?> 
+     
+<?php }
+else{
+  echo "There's no cloth in this category";
+}?>
+
+            
+            </div>
+
+
+            <h2 class="clothes__title">Shoes</h2>
+            <div class="clothes__items">
+
+<?php
+            $c_type = 'Shoes';
+            $sql1 = "SELECT * FROM `clothes` WHERE user_id = '$user_id' AND c_type = '$c_type'";
+            $result = $conn->query($sql1);
+           if($result){
+              #none
+            }else{
+              echo "Error: " . $sql1 . "<br>" . $conn->error;
+            }
+
+            if($result->num_rows > 0){ ?> 
+    
+        <?php while($row = $result->fetch_assoc()){   ?>
+
+
+          <div class="clothes__item" id="<?php echo $row['c_id']; ?>">
+          <div class="clothes__item-button">
+          <i class="fa-solid fa-check"></i>
+          </div>
+          <img src="/closet/upload_img/<?php echo $row['image']; ?> " alt="item" />
+          </div>
+            
+        <?php } ?> 
+     
+<?php }
+else{
+  echo "There's no cloth in this category";
+}?>
+
+            
+            </div>
+
+          </div>
+
+          
         </div>
       </div>
       <div class="clothes__buttons">
@@ -133,7 +265,7 @@
           itemsID: itemsID,
           name: modalInput.value 
         }
-        fetch("/closet/my-php.php", {
+        fetch("/closet/script.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
