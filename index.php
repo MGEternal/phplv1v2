@@ -167,8 +167,9 @@ $uniqueArray = array_values(array_unique($data));
                     <img src="/photo-1600269452121-4f2416e55c28.webp" alt="" />
                   </div>
                 </div>
-              </div>
+              
               -->
+              </div>
             </div>
           </div>
           
@@ -186,18 +187,24 @@ $uniqueArray = array_values(array_unique($data));
               <div class="home__set">
                 <h3 class="home__set-name">Set 1</h3>
                 <div class="home__set-images">
-                  <div class="home__set-image">
-                    <img src="/photo-1600269452121-4f2416e55c28.webp" alt="" />
-                  </div>
-                  <div class="home__set-image">
-                    <img src="/photo-1600269452121-4f2416e55c28.webp" alt="" />
-                  </div>
-                  <div class="home__set-image">
-                    <img src="/photo-1600269452121-4f2416e55c28.webp" alt="" />
-                  </div>
-                  <div class="home__set-image">
-                    <img src="/photo-1600269452121-4f2416e55c28.webp" alt="" />
-                  </div>
+                  <?php 
+                  $sql4 = "select * from clothes where user_id = '$user_id'";
+                  $result4 = $conn->query($sql4);
+                  if (!$result4) {
+                    die("Query failed: " . $conn->error);
+                }
+                  
+                  $numRows4 = $result4->num_rows;
+                  while ($row4 = $result4->fetch_assoc()) {
+                      ?>
+                       <div class="home__set-image">
+                       <img src="upload_img/<?php echo $row4["image"];?>" alt="" />
+                      </div>
+                      <?php
+                  }
+                  ?>
+                 
+                  
                 </div>
               </div>
             </div>
