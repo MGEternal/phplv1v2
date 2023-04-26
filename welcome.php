@@ -6,25 +6,6 @@ if($_SESSION["user_id"]==""){
   header("Location: login.php");
 }
 $user_id = $_SESSION['user_id'];
-$sql="SELECT * FROM sets WHERE `user_id` = '$user_id'";
-$result = $conn->query($sql);
-if (!$result) {
-  die("Query failed: " . $conn->error);
-}
-
-$numRows = $result->num_rows;
-$data = [];
-$i=0;
-
-while ($row = $result->fetch_assoc() or $numRows==0) {
-  
-  $data[] = $row["s_name"]; 
-  $numRows++;
-  $i++;
- 
-  
-}
-$uniqueArray = array_values(array_unique($data));
 
 
 ?>
@@ -76,45 +57,7 @@ $uniqueArray = array_values(array_unique($data));
             
             <div class="home__sets">
               
-                <?php 
-                $x=0;
-                foreach ($uniqueArray as $value) {
-                  ?>
-                  <div class="home__set">
-                  <h3 class="home__set-name"><?php echo $value; ?></h3>
-                  <div class="home__set-images">
-                  <?php
-                  $sql2 = "SELECT * from sets where user_id = '$user_id' and s_name = '$value' ";
-                  $result2 = $conn->query($sql2);
-                  if (!$result2) {
-                    die("Query failed: " . $conn->error);
-                }
-                  
-                  $numRows2 = $result2->num_rows;
-                  while ($row2 = $result2->fetch_assoc()) {
-                    $c_id=$row2["c_id"];
-                    $sql3="SELECT * from clothes where c_id = '$c_id'";
-                    $result3 = mysqli_query($conn, $sql3);
-                    $row3 = mysqli_fetch_assoc($result3);
-                    ?>
-                    
-                    <div class="home__set-image">
-                    <img src="upload_img/<?php echo $row3["image"];?>" alt="" />
-
-                    </div>
-                    <?php
-                    $numRows++;
-                    $x++;
-                }
-                ?>
                 
-                
-                </div>
-                </div>
-                <br>
-                <?php
-              }
-                ?>
                 <!--
                 <h3 class="home__set-name">Set 1</h3>
                 <div class="home__set-images">
@@ -190,13 +133,7 @@ $uniqueArray = array_values(array_unique($data));
                 <h3 class="home__set-name">Set 1</h3>
                 <div class="home__set-images">
                   <?php 
-                  $set=array();
-                  $set[] = "Pants"; 
-                  $set[] = "hat"; 
-                  $set[] = "Shoes"; 
-                  $set[] = "shirts"; 
-                  foreach ($set as $value) {
-                  $sql4 = "select * from clothes where user_id = '$user_id' and c_type = '$value'";
+                  $sql4 = "select * from clothes where user_id = '$user_id'";
                   $result4 = $conn->query($sql4);
                   if (!$result4) {
                     die("Query failed: " . $conn->error);
@@ -204,24 +141,16 @@ $uniqueArray = array_values(array_unique($data));
                   
                   $numRows4 = $result4->num_rows;
                   
-                  
-                  $chk=0;
                   while ($row4 = $result4->fetch_assoc()) {
-                    
-                    $randomNumber = random_int(1, 3);
+                    $randomNumber = random_int(1, 2);
                     if($randomNumber==2){
-                        $chk++;
                       ?>
                        <div class="home__set-image">
                        <img src="upload_img/<?php echo $row4["image"];?>" alt="" />
                       </div>
                       <?php
-                      $img =$row4["image"];
                       }
-                      
                   }
-                 
-                }
                   ?>
                  
                   </div>
